@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import clases.Rol;
 import clases.Usuario;
 import modelo.ModeloUsuario;
 
@@ -33,8 +34,11 @@ public class ModificarUsuario extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		int id = Integer.parseInt(request.getParameter("id"));
+		int idRol = Integer.parseInt(request.getParameter("rol"));
 		String nombre = request.getParameter("nombre");
 		String password = request.getParameter("password");
+		
+	
 		SimpleDateFormat login_fecha = new SimpleDateFormat("yyyy-MM-dd");
 		ModeloUsuario modeloUsuario = new ModeloUsuario();
 		Usuario usuario = new Usuario();
@@ -42,27 +46,31 @@ public class ModificarUsuario extends HttpServlet {
 		usuario.setNombre(nombre);
 		usuario.setPassword(password);
 		
+		
 		try {
 			usuario.setLogin_fecha(login_fecha.parse(request.getParameter("login_fecha")));
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		Rol rol = new Rol();
+		rol.setId(idRol);
+		usuario.setRol(rol);
+		
 			modeloUsuario.conectar();
 			modeloUsuario.modificarUsuario(usuario);
 			modeloUsuario.cerrar();
 		
 				
 		response.sendRedirect("VerUsuarios");
-		
 	}
+
+
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
 	}
-
 }

@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.sql.Date;
 
+import clases.Rol;
 import clases.Usuario;
 import conector.Conector;
 
@@ -15,11 +16,12 @@ public class ModeloUsuario extends Conector{
 
 		public void insertarUsuario(Usuario usuario) {
 			try {
-				prt = con.prepareStatement("INSERT INTO usuarios (nombre, password, login_fecha) VALUES(?,?,?)");
+				prt = con.prepareStatement("INSERT INTO usuarios (nombre, password, login_fecha, id_rol) VALUES(?,?,?,?)");
 				
 				prt.setString(1, usuario.getNombre());
 				prt.setString(2, usuario.getPassword());
 				prt.setDate(3, new Date(usuario.getLogin_fecha().getTime()));
+				prt.setInt(4, usuario.getRol().getId());
 				prt.execute();
 			} catch (Exception e) {
 				// TODO: handle exception
@@ -42,6 +44,10 @@ public class ModeloUsuario extends Conector{
 					usuario.setNombre(resultado.getString(2));
 					usuario.setPassword(resultado.getString(3));
 					usuario.setLogin_fecha(resultado.getDate(4));
+					Rol rol = new Rol();
+					rol.setId(resultado.getInt(5));
+					usuario.setRol(rol);
+					
 					usuarios.add(usuario);
 				}
 			} catch (SQLException e) {
@@ -63,6 +69,11 @@ public class ModeloUsuario extends Conector{
 				usuario.setNombre(resultado.getString("nombre"));
 				usuario.setPassword(resultado.getString("password"));
 				usuario.setLogin_fecha(resultado.getDate("login_fecha"));
+				Rol rol = new Rol();
+				rol.setId(resultado.getInt("id_rol"));
+				usuario.setRol(rol);
+				
+				
 				return usuario;
 				
 		}
@@ -81,17 +92,21 @@ public class ModeloUsuario extends Conector{
 			
 		}
 		public void modificarUsuario(Usuario usuario) {
+			
 			try {
-				PreparedStatement preparedSt = con.prepareStatement("UPDATE usuarios SET nombre=?,password=?,login_fecha=? WHERE id=?");
+				 prt = con.prepareStatement("UPDATE usuarios SET nombre=?,password=?,login_fecha=?, id_rol? WHERE id=?");
 				
 				
-				preparedSt.setString(1, usuario.getNombre());
-				preparedSt.setString(2, usuario.getPassword());
-				preparedSt.setDate(3, new Date(usuario.getLogin_fecha().getTime()));
-				preparedSt.setInt(4, usuario.getId());
+				 prt.setString(1, usuario.getNombre());
+				 prt.setString(2, usuario.getPassword());
+				 prt.setDate(3, new Date(usuario.getLogin_fecha().getTime()));
+				 prt.setInt(4, usuario.getRol().getId());
+				 prt.setInt(5, usuario.getId());
+				
+		
 				
 				
-				preparedSt.executeUpdate();
+				 prt.executeUpdate();
 			} catch (Exception e) {
 				// TODO: handle exception
 			}

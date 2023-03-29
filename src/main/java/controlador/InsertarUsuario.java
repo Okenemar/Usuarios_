@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.ServletException;
@@ -12,7 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import clases.Rol;
 import clases.Usuario;
+import modelo.ModeloRol;
 import modelo.ModeloUsuario;
 
 /**
@@ -34,7 +37,12 @@ public class InsertarUsuario extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		response.getWriter().append("Served at:").append(request.getContextPath());
+		ModeloRol modeloRol = new ModeloRol();
+		ArrayList<Rol> roles = new ArrayList<Rol>();
+		modeloRol.conectar();
+		roles= modeloRol.Roles();
+		modeloRol.cerrar();
+		request.setAttribute("roles", roles);
 		request.getRequestDispatcher("InsertarUsuario.jsp").forward(request, response);
 	}
 
@@ -42,12 +50,14 @@ public class InsertarUsuario extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-				
+		
+		int idRol = Integer.parseInt(request.getParameter("rol"));
 		String nombre = (String) request.getParameter("nombre");
 		String password = (String) request.getParameter("password");
 		SimpleDateFormat login_fecha = new SimpleDateFormat("yyyy-MM-dd");
 		ModeloUsuario modeloUsuario = new ModeloUsuario();
 		Usuario usuario = new Usuario();
+		
 		usuario.setNombre(nombre);
 		usuario.setPassword(password);
 		try {
@@ -56,6 +66,9 @@ public class InsertarUsuario extends HttpServlet {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		Rol rol = new Rol();
+		rol.setId(idRol);
+		usuario.setRol(rol);
 		
 			modeloUsuario.conectar();
 			modeloUsuario.insertarUsuario(usuario);	

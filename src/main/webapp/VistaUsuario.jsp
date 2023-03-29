@@ -1,4 +1,4 @@
-<%@ page import="clases.Usuario" %>
+<%@ taglib prefix="c" uri= "http://java.sun.com/jsp/jstl/core"  %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -8,23 +8,22 @@
 <title>Insert title here</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
-<body>
-	<% Usuario usuario= (Usuario) request.getAttribute("usuario");
-		
-	%>
+	
 <body> <form  action="VerUsuario" method="get" >
 		
 		<label>ID</label>
-		<%= usuario.getId() %>
+		${usuario.id}
 		<br>
 		<label>Nombre</label>
-		<%= usuario.getNombre() %>
+		${usario.nombre}
 		<br>
 		<label>Password</label>
-		<%= usuario.getPassword() %>
+		${usuario.password}
 		<br>
 		<label>Login fecha</label>
-		<%= usuario.getLogin_fecha() %>
+		${usuario.login_fecha}
+		<label>Id Rol</label>
+		${usuario.idRol}
 		</form>
 		<form action="VerUsuarios">
 			<input type="submit" value="Volver">
