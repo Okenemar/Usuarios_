@@ -1,8 +1,7 @@
-<%@ page import="modelo.ModeloUsuario" %>
-<%@ page import="java.util.ArrayList" %>
-<%@ page import="clases.Usuario" %>
+ 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri= "http://java.sun.com/jsp/jstl/core"  %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,13 +13,9 @@
 
 <body>
 	
-	<% ArrayList<Usuario> usuarios = (ArrayList<Usuario>) request.getAttribute("usuarios");
 	
-	%>
 	<nav>
 		<a href="InsertarUsuario">InsertarUsuario</a>
-		
-
 		<br><br><br>
 	</nav>
 	<table class="table">
@@ -31,25 +26,27 @@
       <th scope="col">Nombre</th>
       <th scope="col">Password</th>
       <th scope="col">Login fecha</th>
+      <th scope="col">id Rol</th>
       <th scope="col"></th>
       
       
     </tr>
   </thead>
   <tbody>
-  <% for(Usuario usuario : usuarios) {%>
+  <c:forEach items="${usuarios}" var="usuario">
     <tr>
       <th scope="row"></th>
-      <td><% out.println(usuario.getId());%></td>
-      <td><% out.println(usuario.getNombre()); %></td>
-      <td><% out.println(usuario.getPassword()); %></td>
-      <td><% out.println(usuario.getLogin_fecha()); %></td>
-      <td><a href=EliminarUsuario?id=<% out.println(usuario.getId()); %>>eliminar</a></td>
-      <td><a href=FormularioModificarUsuario?id=<% out.println(usuario.getId()); %>>modificar</a></td>
-      <td><a href=VerUsuario?id=<% out.println(usuario.getId()); %>>ver usuario</a>
+      <td>${usuario.id}</td>
+      <td>${usuario.nombre}</td>
+      <td>${usuario.password}</td>
+      <td>${usuario.login_fecha}</td>
+      <td>${usuario.rol.id}</td>
+      <td><a href="EliminarUsuario?id=${usuario.id}">eliminar</a></td>
+      <td><a href="FormularioModificarUsuario?id=${usuario.id}">modificar</a></td>
+      <td><a href="VerUsuario?id=${usuario.id}">ver usuario</a>
       
     </tr>
-   <% } %>
+ </c:forEach>
   </tbody>
 </table>
 	

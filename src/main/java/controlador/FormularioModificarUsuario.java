@@ -39,9 +39,8 @@ public class FormularioModificarUsuario extends HttpServlet {
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		request.setAttribute("Usuario", usuario);
+		request.setAttribute("usuario", usuario);
 		
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 		request.getRequestDispatcher("ModificarVista.jsp").forward(request, response);
 	}
 
@@ -49,8 +48,7 @@ public class FormularioModificarUsuario extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		
 	}
 
 }

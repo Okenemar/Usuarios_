@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri= "http://java.sun.com/jsp/jstl/core"  %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -11,6 +12,11 @@
 			<input type="text"  name="nombre" placeholder="nombre">
 			<input type="text" name="password" placeholder="password">
 			<input type="date" name="login_fecha" placeholder="login_fecha">
+			<select name="rol">
+            <c:forEach items="${roles}" var="rol">
+                <option value="${rol.id}">${rol.nombre}</option>
+            </c:forEach>
+        </select>
 			<input type="submit" value="Crear">
 		</form>
 		<br>
